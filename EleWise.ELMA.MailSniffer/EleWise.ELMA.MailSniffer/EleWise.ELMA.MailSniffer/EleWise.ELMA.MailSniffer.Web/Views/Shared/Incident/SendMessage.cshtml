@@ -1,0 +1,19 @@
+﻿@model IIncident
+
+@using EleWise.ELMA.MailSniffer.Models
+
+<input class="submit" type="button" name="send_message_button" value="Отправить сообщение об инциденте" onclick="SendMessage(@Model.Id)" />
+
+<script>
+    function SendMessage(id) {
+        $.ajax({
+            url: '@Url.Action("SendMessage", "Incident", new {area = "EleWise.ELMA.MailSniffer.Web" })',
+            dataType: 'json',
+            type: 'post',
+            data: ({ incidentId: id}),
+            success: function(data) {
+                jAlert("@SR.T("Статус отправки сообщения: ")" + data);
+            }
+        });
+    }
+</script>

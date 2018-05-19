@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FormViewItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Form</Name>
+  <Uid>29b3717d-bdf7-43db-8182-8b01e84da645</Uid>
+  <Items>
+    <ViewItem xsi:type="DefaultContainerViewItem">
+      <Name>DefaultContainer1</Name>
+      <Uid>26a21740-0af0-40a0-8230-d9cbebe22f09</Uid>
+    </ViewItem>
+    <RootViewItem xsi:type="PanelViewItem">
+      <Name>Panel1</Name>
+      <Uid>2cd0564c-9c0f-4270-8a3b-5c794e8dea05</Uid>
+      <Caption />
+      <Style>None</Style>
+      <CustomViewName>Incident/SendMessage</CustomViewName>
+    </RootViewItem>
+  </Items>
+  <DisplayName>Edit</DisplayName>
+</FormViewItem>

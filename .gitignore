@@ -1,0 +1,16 @@
+/EleWise.ELMA.MailSniffer/*.nupkg
+/EleWise.ELMA.MailSniffer/*.elma3
+/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/*.suo
+/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/obj
+/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/bin
+/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer.Web/obj
+/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer.Web/App_Data
+/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer.Web/bin
+/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer.Web/EleWise.ELMA.MailSniffer.Web.csproj.user
+/MailProxyApp/ElmaIntegration/obj
+/MailProxyApp/ElmaIntegration/bin
+/MailProxyApp/MailProxyApp/obj
+/MailProxyApp/MailProxyApp/bin
+/MailProxyApp/.vs
+/EleWise.ELMA.MailSniffer/EleWise.ELMA.MailSniffer/.vs
+/MailProxyApp/MailProxyApp/Reports

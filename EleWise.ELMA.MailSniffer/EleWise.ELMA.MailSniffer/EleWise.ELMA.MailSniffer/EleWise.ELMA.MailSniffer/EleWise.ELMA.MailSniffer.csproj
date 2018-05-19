@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4B644D16-A9A1-410B-9850-699954203F3B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EleWise.ELMA.MailSniffer</RootNamespace>
+    <AssemblyName>EleWise.ELMA.MailSniffer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EleWise.ELMA.BPM">
+      <HintPath>C:\ELMA3-Enterprise\Web\bin\EleWise.ELMA.BPM.dll</HintPath>
+    </Reference>
+    <Reference Include="EleWise.ELMA.BPM.Web">
+      <HintPath>C:\ELMA3-Enterprise\Web\bin\EleWise.ELMA.BPM.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="EleWise.ELMA.Documents">
+      <HintPath>C:\ELMA3-Enterprise\Designer\EleWise.ELMA.Documents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="EleWise.ELMA.SDK">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\1zexlwn5.0gw\EleWise.ELMA.SDK.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="EleWise.ELMA.SDK.Web">
+      <HintPath>..\..\..\..\..\..\REP\ELMA\ELMADev2\elma3\Extensions\Visual Studio2013\DesignerBin\EleWise.ELMA.SDK.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="EleWise.ELMA.Security">
+      <HintPath>C:\ELMA3-Enterprise\Designer\EleWise.ELMA.Security.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AssemblyInfo.md">
+      <Generator>MDCodeGenerator</Generator>
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+    </None>
+    <None Include="Models\Incident.md">
+      <Generator>MDCodeGenerator</Generator>
+      <LastGenOutput>Incident.cs</LastGenOutput>
+    </None>
+    <None Include="Models\SniffState.md">
+      <Generator>MDCodeGenerator</Generator>
+      <LastGenOutput>SniffState.cs</LastGenOutput>
+    </None>
+    <None Include="Models\UserExt.md">
+      <Generator>MDCodeGenerator</Generator>
+      <LastGenOutput>UserExt.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\EleWise.ELMA.MailSniffer.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API\Models\SettingsResponse.cs" />
+    <Compile Include="API\Service\MailSnifferService.cs" />
+    <Compile Include="AssemblyInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyInfo.md</DependentUpon>
+    </Compile>
+    <Compile Include="MailSnifferSettings.cs" />
+    <Compile Include="MailSnifferSettingsModule.cs" />
+    <Compile Include="Models\Incident.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Incident.md</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SniffState.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SniffState.md</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserExt.Actions.cs">
+      <DependentUpon>UserExt.md</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserExt.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserExt.md</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectAssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Components\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Managers\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Models\Incident.Form.Form.xml">
+      <DependentUpon>Incident.md</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
