@@ -58,7 +58,7 @@ namespace MailProxyApp.Src.Models
         {
             get
             {
-                return @"D:\Учеба (Саша)\Диплом\Разработка\Результат\MailProxyApp\MailProxyApp\Reports\";
+                return @"D:\Учеба (Саша)\Диплом\Разработка\Результат\dip\MailProxyApp\MailProxyApp\Reports\";
             }
         }
 

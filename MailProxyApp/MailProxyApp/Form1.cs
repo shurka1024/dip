@@ -45,19 +45,19 @@ namespace MailProxyApp
 
             // Путь до сертификата для mail.yandex.ru
             // TODO: Сделать автогенерируемым
-            AppSettings.CertificateFileName = @"D:\Учеба (Саша)\Диплом\Разработка\Результат\MailProxyApp\MailProxyApp\Certificates\cer-der(fd-ya).cer";
+            AppSettings.CertificateFileName = @"D:\Учеба (Саша)\Диплом\Разработка\Результат\dip\MailProxyApp\MailProxyApp\Certificates\cer-der(fd-ya).cer";
             AppSettings.SnifferSettings = snifferSettings;
 
-            Proxy = new YandexMailProxy();
+            //Proxy = new YandexMailProxy();
 
-            int port = 443;
+            //int port = 443;
             string targetHost = "mail.yandex.ru";
             string ip = "213.180.204.125";
 
-            Proxy.StartListen(AppSettings, port, targetHost, ip, Integration);
+            YandexMailProxy.StartListen(AppSettings, targetHost, ip, Integration);
             //Proxy.StartListen(settings, 465, "smtp.yandex.com", "213.180.193.38");
 
-            appStatus.Text = string.Format("Прокси запущен. Порт {0}. Хост: {1}. IP: {2}", port, targetHost, ip);
+            appStatus.Text = string.Format("Прокси запущен. Порт {0}. Хост: {1}. IP: {2}", YandexMailProxy.Port, targetHost, ip);
             currentUserInfo.Text = string.Format("Текущий пользователь: {0}", "");
         }        
     }

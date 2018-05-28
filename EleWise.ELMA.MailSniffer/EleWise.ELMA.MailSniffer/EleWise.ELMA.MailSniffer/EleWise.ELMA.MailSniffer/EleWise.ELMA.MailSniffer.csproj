@@ -37,9 +37,15 @@
     <Reference Include="EleWise.ELMA.BPM.Web">
       <HintPath>C:\ELMA3-Enterprise\Web\bin\EleWise.ELMA.BPM.Web.dll</HintPath>
     </Reference>
+    <Reference Include="EleWise.ELMA.Common">
+      <HintPath>C:\ELMA3-Enterprise\Designer\EleWise.ELMA.Common.dll</HintPath>
+    </Reference>
     <Reference Include="EleWise.ELMA.Documents">
       <HintPath>C:\ELMA3-Enterprise\Designer\EleWise.ELMA.Documents.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="EleWise.ELMA.Messages">
+      <HintPath>C:\ELMA3-Enterprise\Designer\EleWise.ELMA.Messages.dll</HintPath>
     </Reference>
     <Reference Include="EleWise.ELMA.SDK">
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\1zexlwn5.0gw\EleWise.ELMA.SDK.dll</HintPath>
@@ -91,6 +97,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Models\SettingsResponse.cs" />
+    <Compile Include="Services\IIncidentService.cs" />
+    <Compile Include="Services\IncidentService.cs" />
     <Compile Include="API\Service\MailSnifferService.cs" />
     <Compile Include="AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
@@ -123,7 +131,6 @@
     <Folder Include="Components\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Managers\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Models\Incident.Form.Form.xml">

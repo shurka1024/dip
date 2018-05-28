@@ -16,6 +16,7 @@ using EleWise.ELMA.Model.Managers;
 using EleWise.ELMA.MailSniffer.Models;
 using EleWise.ELMA.Model.Services;
 using EleWise.ELMA.Security.Managers;
+using EleWise.ELMA.MailSniffer.Services;
 
 namespace EleWise.ELMA.MailSniffer.API.Service
 {
@@ -34,12 +35,12 @@ namespace EleWise.ELMA.MailSniffer.API.Service
 
         [OperationContract]
         //[WebGet(UriTemplate = "/CreateIncident?url={url}")]
-        [WebInvoke(Method = "POST", UriTemplate = "/CreateIncident?guidFile={guidFile}&streamIsBlocked={streamIsBlocked}&userIp={userIp}")]
+        [WebInvoke(Method = "POST", UriTemplate = "/CreateIncident?guidFile={guidFile}&streamIsBlocked={streamIsBlocked}&userIp={userIp}&fileName={fileName}")]
         [AuthorizeOperationBehavior]
         [FaultContract(typeof(PublicServiceException))]
         [Description("Создать инцидент")]
         [WsdlDocumentation("Создать инцидент")]
-        long CreateIncident(Guid guidFile, bool streamIsBlocked, string userIp);
+        long CreateIncident(Guid guidFile, bool streamIsBlocked, string userIp, string fileName);
     }
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, MaxItemsInObjectGraph = int.MaxValue)]
@@ -62,7 +63,7 @@ namespace EleWise.ELMA.MailSniffer.API.Service
             return responseSettings;
         }
 
-        public long CreateIncident(Guid guidFile, bool streamIsBlocked, string userIp)
+        public long CreateIncident(Guid guidFile, bool streamIsBlocked, string userIp, string fileName)
         {
             var cacheFilesService = Locator.GetService<ICacheFilesService>();
             var file = cacheFilesService.GetFilePath(guidFile);
@@ -76,7 +77,10 @@ namespace EleWise.ELMA.MailSniffer.API.Service
             incident.Status = streamIsBlocked ? SniffState.Stop : SniffState.Warning;
             incident.Date = DateTime.Now;
             incident.Name = SR.T("Инцидент от {0} {1}", incident.Date.ToShortDateString(), incident.Date.ToShortTimeString());
+            incident.FileName = fileName;
             incident.Save();
+
+            Locator.GetService<IncidentService>().CreateMessage(incident.Id);
             return incident.Id;
         }
     }

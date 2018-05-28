@@ -197,6 +197,26 @@
             get;
             set;
         }
+        
+        /// <summary>
+        /// Наименование файла
+        /// </summary>
+        [global::EleWise.ELMA.Model.Attributes.Uid("3cd5ca6c-5369-4c5e-a4e5-096cbf0da835")]
+        [global::EleWise.ELMA.Model.Attributes.Order(8)]
+        [global::EleWise.ELMA.Model.Attributes.Property("9b9aac17-22bb-425c-aa93-9c02c5146965")]
+        [global::EleWise.ELMA.Model.Types.Settings.StringSettings(FieldName="FileName")]
+        [global::EleWise.ELMA.Model.Attributes.DisplayName(typeof(@__Resources_IIncident), "P_FileName_DisplayName")]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Create, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Edit, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Display, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=true)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.List, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Hidden, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Filter, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.EntityProperty()]
+        string FileName
+        {
+            get;
+            set;
+        }
     }
     
     internal class @__Resources_IIncident
@@ -271,6 +291,14 @@
             get
             {
                 return global::EleWise.ELMA.SR.T("IP адрес");
+            }
+        }
+        
+        public static string P_FileName_DisplayName
+        {
+            get
+            {
+                return global::EleWise.ELMA.SR.T("Наименование файла");
             }
         }
         

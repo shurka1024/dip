@@ -140,7 +140,10 @@ namespace ElmaIntegration
         public long? CreateIncident(string logFullFileName, bool streamIsBlocked, string userIp)
         {
             var guidFile = UploadFile(logFullFileName);
-            return CreateIncident(guidFile, streamIsBlocked, userIp);
+            var lastIndexOfSlash = logFullFileName.LastIndexOf('\\');
+            var shotLogFileName = logFullFileName.Substring(lastIndexOfSlash + 1, logFullFileName.Length - lastIndexOfSlash - 1);
+
+            return CreateIncident(guidFile, shotLogFileName, streamIsBlocked, userIp);
         }
 
         /// <summary>
@@ -150,9 +153,23 @@ namespace ElmaIntegration
         /// <param name="streamIsBlocked"></param>
         /// <param name="userIp"></param>
         /// <returns></returns>
-        public long? CreateIncident(Guid guidFile, bool streamIsBlocked, string userIp)
+        public long? CreateIncident(Guid guidFile, string fileName, bool streamIsBlocked, string userIp)
         {
-            var url = string.Format("{0}/PublicAPI/REST/EleWise.ELMA.MailSniffer/MailSniffer/CreateIncident?guidFile={1}&streamIsBlocked={2}&userIp={3}", ElmaServer, guidFile, streamIsBlocked, userIp);
+            if (userIp == "127.0.0.1")
+            {
+                try
+                {
+                    var localhostName = Dns.GetHostName();
+                    var ip = Dns.GetHostEntry(localhostName).AddressList.FirstOrDefault(a => a.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+                    if (ip != null)
+                    {
+                        userIp = ip.ToString();
+                    }
+                }
+                catch(Exception ex)
+                { }
+            }
+            var url = string.Format("{0}/PublicAPI/REST/EleWise.ELMA.MailSniffer/MailSniffer/CreateIncident?guidFile={1}&streamIsBlocked={2}&userIp={3}&fileName={4}", ElmaServer, guidFile, streamIsBlocked, userIp, fileName);
             var incidentIp = RestExecute<long?>(url, "", WebRequestMethods.Http.Post);
             return incidentIp;
         }

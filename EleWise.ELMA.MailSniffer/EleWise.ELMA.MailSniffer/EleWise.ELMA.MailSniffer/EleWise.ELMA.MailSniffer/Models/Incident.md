@@ -260,6 +260,38 @@
       </ViewSettings>
       <Order>7</Order>
     </PropertyMetadata>
+    <PropertyMetadata xsi:type="EntityPropertyMetadata">
+      <Uid>3cd5ca6c-5369-4c5e-a4e5-096cbf0da835</Uid>
+      <Name>FileName</Name>
+      <DisplayName>Наименование файла</DisplayName>
+      <TypeUid>9b9aac17-22bb-425c-aa93-9c02c5146965</TypeUid>
+      <Settings xsi:type="StringSettings">
+        <FieldName>FileName</FieldName>
+      </Settings>
+      <Nullable>true</Nullable>
+      <ViewSettings>
+        <Attributes>
+          <ViewAttribute>
+            <ViewType>Create</ViewType>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Edit</ViewType>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Display</ViewType>
+            <ReadOnly>true</ReadOnly>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>List</ViewType>
+            <Visibility>Hidden</Visibility>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Filter</ViewType>
+          </ViewAttribute>
+        </Attributes>
+      </ViewSettings>
+      <Order>8</Order>
+    </PropertyMetadata>
   </Properties>
   <PropertiesDiffContainer />
   <FormsScheme>FormConstructor</FormsScheme>

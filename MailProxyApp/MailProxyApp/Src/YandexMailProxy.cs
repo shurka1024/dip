@@ -24,25 +24,25 @@ namespace MailProxyApp.Src
          hostName - 213.180.204.125
              */
 
-        private int Port { get; set; }
-        private string TargetHost { get; set; }
-        private string HostName { get; set; }
+        public const int Port = 443;
+        private static string TargetHost { get; set; }
+        private static string HostName { get; set; }
 
-        private TcpListener Listener { get; set; }
+        static readonly TcpListener Listener = new TcpListener(IPAddress.Any, Port);
 
         const int BufferSize = 4096;
 
-        private Setting ProxySettings { get; set; }
+        private static Setting ProxySettings { get; set; }
 
-        private Integration IntegrationService { get; set; }
+        private static Integration IntegrationService { get; set; }
 
-        public void StartListen(Setting settings, int port, string targetHost, string hostName, Integration integration)
+        public static void StartListen(Setting settings, string targetHost, string hostName, Integration integration)
         {
-            Port = port;
+            //Port = port;
             TargetHost = targetHost;
             HostName = hostName;
 
-            Listener = new TcpListener(IPAddress.Any, Port);
+            //Listener = new TcpListener(IPAddress.Any, Port);
             ProxySettings = settings;
             IntegrationService = integration;
 
@@ -62,7 +62,7 @@ namespace MailProxyApp.Src
             Listener.Stop();
         }
 
-        private void AcceptConnection(TcpClient client)
+        private static void AcceptConnection(TcpClient client)
         {
             try
             {
@@ -83,12 +83,12 @@ namespace MailProxyApp.Src
             }            
         }
 
-        private bool SslValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyerrors)
+        private static bool SslValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyerrors)
         {
             return true;
         }
 
-        private void ReadFromServer(Stream serverStream, Stream clientStream)
+        private static void ReadFromServer(Stream serverStream, Stream clientStream)
         {
             var message = new byte[BufferSize];
             while (true)
@@ -110,7 +110,7 @@ namespace MailProxyApp.Src
             }
         }
 
-        private void ReadFromClient(TcpClient client, Stream clientStream, Stream serverStream)
+        private static void ReadFromClient(TcpClient client, Stream clientStream, Stream serverStream)
         {
             var message = new byte[BufferSize];
             var userIpAddress = (client.Client.RemoteEndPoint as IPEndPoint).Address;
@@ -181,7 +181,7 @@ namespace MailProxyApp.Src
             //}
         }
 
-        private void CreateIncident(string logFullFileName, bool streamIsBlocked, string userIp)
+        private static void CreateIncident(string logFullFileName, bool streamIsBlocked, string userIp)
         {
             long? incidentId = IntegrationService.CreateIncident(logFullFileName, streamIsBlocked, userIp);
         }
@@ -191,10 +191,10 @@ namespace MailProxyApp.Src
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        private CheckStatus CheckBuffer(byte[] message)
+        private static CheckStatus CheckBuffer(byte[] message)
         {
-            var warningList = ProxySettings.SnifferSettings.FilterList.Split(',');
-            var stopList = ProxySettings.SnifferSettings.BlockFilterList.Split(',');
+            var warningList = ProxySettings.SnifferSettings.FilterList.Replace(", ", ",").Split(',');
+            var stopList = ProxySettings.SnifferSettings.BlockFilterList.Replace(", ", ",").Split(',');
 
             var mesString = HttpUtility.HtmlDecode(Encoding.UTF8.GetString(message)).ToLower();  // TODO: НЕ РАБОТАЕТЬ!!!!
 
@@ -215,7 +215,7 @@ namespace MailProxyApp.Src
             return CheckStatus.Ok;
         }
 
-        private string GetReportFileName(IPAddress address)
+        private static string GetReportFileName(IPAddress address)
         {
             var now = DateTime.Now;
             var dirName = Setting.ReportDirectory;
