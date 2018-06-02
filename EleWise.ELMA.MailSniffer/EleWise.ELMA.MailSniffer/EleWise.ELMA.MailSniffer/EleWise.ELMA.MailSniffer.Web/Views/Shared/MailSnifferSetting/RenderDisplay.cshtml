@@ -1,0 +1,26 @@
+﻿@using EleWise.ELMA.BPM.Web.Common.Mvc.html
+@using EleWise.ELMA.BPM.Web.Common.Models
+@using EleWise.ELMA.Model.Types.Settings
+@model EleWise.ELMA.MailSniffer.MailSnifferSettings
+
+@using (Html.TableForm(v => v.ViewType(EleWise.ELMA.Model.Views.ViewType.Display).Attributes(a => a.@class = "settings_table")))
+{
+    @Html.Property(m => m.NotifyUsers)
+    @Html.Property(m => m.ExceptionUsers)
+    @Html.Property(m => m.TrialDuration)
+    @Html.Property(m => m.MonitorEmployeesOnProbation)
+    @Html.Property(m => m.EmployeesOnProbation, a => a.ReadOnly = true)
+    @Html.Property(m => m.MonitorEmployeesOnDismissal)
+    @Html.Property(m => m.EmployeesOnDismissal, a => a.ReadOnly = true)
+    @Html.Property(m => m.FilterList, a =>
+                        {
+                            a.ShowDescription = true;
+                            a.TypeSettings = new StringSettings() { MultiLine = true };
+                        })
+    @Html.Property(m => m.BlockFilterList, a =>
+                        {
+                            a.ShowDescription = true;
+                            a.TypeSettings = new StringSettings() { MultiLine = true };
+                        })
+
+}

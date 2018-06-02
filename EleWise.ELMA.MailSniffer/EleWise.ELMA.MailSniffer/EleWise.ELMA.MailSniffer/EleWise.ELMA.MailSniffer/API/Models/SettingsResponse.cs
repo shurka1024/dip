@@ -15,12 +15,24 @@ namespace EleWise.ELMA.MailSniffer.API.Models
     public class SettingsResponse
     {
         [DataMember]
-        [EleWise.ELMA.Model.Attributes.Description(typeof(__SettingsResponse_SR), "FilterList")]
-        public string FilterList { get; set; }
+        [EleWise.ELMA.Model.Attributes.Description(typeof(__SettingsResponse_SR), "FilterString")]
+        public string FilterString { get; set; }
 
         [DataMember]
-        [EleWise.ELMA.Model.Attributes.Description(typeof(__SettingsResponse_SR), "FilterList")]
-        public string BlockFilterList { get; set; }
+        [EleWise.ELMA.Model.Attributes.Description(typeof(__SettingsResponse_SR), "BlockFilterString")]
+        public string BlockFilterString { get; set; }
+
+        [DataMember]
+        [EleWise.ELMA.Model.Attributes.Description(typeof(__SettingsResponse_SR), "Property_SR")]
+        public List<string> IpUsersOnProbation { get; set; }
+
+        [DataMember]
+        [EleWise.ELMA.Model.Attributes.Description(typeof(__SettingsResponse_SR), "Property_SR")]
+        public List<string> IpUsersOnDismissal { get; set; }
+
+        [DataMember]
+        [EleWise.ELMA.Model.Attributes.Description(typeof(__SettingsResponse_SR), "Property_SR")]
+        public List<string> IpExceptionUsers { get; set; }
     }
 
     internal class __SettingsResponse_SR
@@ -28,5 +40,6 @@ namespace EleWise.ELMA.MailSniffer.API.Models
         public static string Settings { get { return SR.T("Текщие настройки модуля"); } }
         public static string FilterList { get { return SR.T("Фильтры, при выполнении которых будут отправлены уведомления ответственному"); } }
         public static string BlockFilterList { get { return SR.T("Фильтры, при выполнении которых почтовый поток будет обрываться"); } }
+        public static string Property_SR { get { return SR.T("Свойство SettingsResponse"); } }
     }
 }

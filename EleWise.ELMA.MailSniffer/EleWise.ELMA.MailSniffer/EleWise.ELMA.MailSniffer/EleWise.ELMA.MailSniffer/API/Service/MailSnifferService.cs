@@ -17,6 +17,7 @@ using EleWise.ELMA.MailSniffer.Models;
 using EleWise.ELMA.Model.Services;
 using EleWise.ELMA.Security.Managers;
 using EleWise.ELMA.MailSniffer.Services;
+using EleWise.ELMA.MailSniffer.Managers;
 
 namespace EleWise.ELMA.MailSniffer.API.Service
 {
@@ -54,30 +55,54 @@ namespace EleWise.ELMA.MailSniffer.API.Service
         public SettingsResponse GetSettings()
         {
             var settings = Locator.GetService<MailSnifferSettingsModule>().Settings;
+            var manager = Locator.GetService<UserManagerExt>();
 
             var responseSettings = new SettingsResponse
             {
-                FilterList = settings.FilterList,
-                BlockFilterList = settings.BlockFilterList
+                FilterString = settings.FilterList,
+                BlockFilterString = settings.BlockFilterList,
+                IpExceptionUsers = manager.GetUsersIpAddresses(settings.ExceptionUsers).ToList()
             };
+            if (settings.MonitorEmployeesOnProbation)
+            {
+                responseSettings.IpUsersOnProbation = 
+                    manager.GetUsersIpAddresses(settings.EmployeesOnProbation).ToList();
+            }
+
+            if (settings.MonitorEmployeesOnDismissal)
+            {
+                responseSettings.IpUsersOnDismissal =
+                    manager.GetUsersIpAddresses(settings.EmployeesOnDismissal).ToList();
+            }
+
             return responseSettings;
         }
 
         public long CreateIncident(Guid guidFile, bool streamIsBlocked, string userIp, string fileName)
-        {
+        {            
+            var incident = IncidentManager.Instance.FindNearOrCreateIncident(userIp);
+
+            if(incident.Id == 0)
+            {
+                incident.Save();
+                var user = UserManager.Instance.Find(u => (u as IUserExt) != null && (u as IUserExt).IPAdress == userIp).FirstOrDefault();
+                incident.IPAdress = userIp;
+                incident.User = user;
+                incident.CreationDate = DateTime.Now;
+                incident.Name = SR.T("Инцидент от {0} {1}", incident.CreationDate.Value.ToShortDateString(), incident.CreationDate.Value.ToLongTimeString());
+            }
+
+            incident.LastIncidentDate = DateTime.Now;
+            if(incident.Status != SniffState.Stop)
+            {
+                incident.Status = streamIsBlocked ? SniffState.Stop : SniffState.Warning;
+            }
+
             var cacheFilesService = Locator.GetService<ICacheFilesService>();
             var file = cacheFilesService.GetFilePath(guidFile);
 
-            var user = UserManager.Instance.Find(u => (u as IUserExt) != null && (u as IUserExt).IPAdress == userIp).FirstOrDefault();
-
-            var incident = InterfaceActivator.Create<IIncident>();
             incident.ThreadFile = null;     // !!!
-            incident.IPAdress = userIp;
-            incident.User = user;
-            incident.Status = streamIsBlocked ? SniffState.Stop : SniffState.Warning;
-            incident.Date = DateTime.Now;
-            incident.Name = SR.T("Инцидент от {0} {1}", incident.Date.ToShortDateString(), incident.Date.ToShortTimeString());
-            incident.FileName = fileName;
+            //incident.FileName = fileName;
             incident.Save();
 
             Locator.GetService<IncidentService>().CreateMessage(incident.Id);

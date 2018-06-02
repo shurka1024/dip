@@ -37,8 +37,8 @@ namespace EleWise.ELMA.MailSniffer.Services
                 message.CreationAuthor = UserManager.Load(SecurityConstants.SystemUserUid);
                 message.CreationDate = DateTime.Now;
                 message.FullMessage = SR.T("{0} {1} был зафиксирован инцидент со статусом {2}. Ознакомьтесь с содержимым во вложении."
-                    , incident.Date.ToShortDateString()
-                    , incident.Date.ToShortTimeString()
+                    , incident.CreationDate.Value.ToShortDateString()
+                    , incident.CreationDate.Value.ToShortTimeString()
                     , incident.Status);
                 message.Attachments.Add(AttachmentManager.Instance.Create(incident.ThreadFile));
 
