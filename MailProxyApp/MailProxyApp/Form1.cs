@@ -40,12 +40,17 @@ namespace MailProxyApp
             var snifferSettings = Integration.GetMailSnifferSettings();
 
             log.Text += "Загружены настройки:" + Environment.NewLine;
-            log.Text += string.Format("FilterList: {0}", snifferSettings.FilterList + Environment.NewLine);
-            log.Text += string.Format("BlockFilterList: {0}", snifferSettings.BlockFilterList + Environment.NewLine);
-
+            log.Text += string.Format("FilterList: {0}", string.Join(", ", snifferSettings.FilterList) + Environment.NewLine);
+            log.Text += string.Format("BlockFilterList: {0}", string.Join(", ", snifferSettings.BlockFilterList) + Environment.NewLine);
+            log.Text += string.Format("IpUsersOnProbation: {0}", string.Join(", ", snifferSettings.IpUsersOnProbation) + Environment.NewLine);
+            log.Text += string.Format("IpUsersOnDismissal: {0}", string.Join(", ", snifferSettings.IpUsersOnDismissal) + Environment.NewLine);
+            log.Text += string.Format("IpExceptionUsers: {0}", string.Join(", ", snifferSettings.IpExceptionUsers) + Environment.NewLine);
+            
             // Путь до сертификата для mail.yandex.ru
             // TODO: Сделать автогенерируемым
             AppSettings.CertificateFileName = @"D:\Учеба (Саша)\Диплом\Разработка\Результат\dip\MailProxyApp\MailProxyApp\Certificates\cer-der(fd-ya).cer";
+            //AppSettings.CertificateFileName = @"D:\Учеба (Саша)\Диплом\Разработка\Результат\dip\MailProxyApp\MailProxyApp\Certificates\server.crt";
+            
             AppSettings.SnifferSettings = snifferSettings;
 
             //Proxy = new YandexMailProxy();

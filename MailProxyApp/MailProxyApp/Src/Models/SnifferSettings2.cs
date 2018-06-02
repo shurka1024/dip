@@ -61,7 +61,7 @@ namespace MailProxyApp.Src.Models
         public List<string> EmployeesOnProbationIPList { get; set; }
 
         /// <summary>
-        /// Полный монитор сотрудников, подавших заявление на уволнение
+        /// Полный монитор сотрудников, подавших заявление на увольнение
         /// </summary>
         public bool MonitorEmployeesOnDismissal { get; set; }
 
@@ -69,5 +69,10 @@ namespace MailProxyApp.Src.Models
         /// Список IP-адресов компьютеров сотруников, подавших заявление на увольнение
         /// </summary>
         public List<string> EmployeesOnDismissalIPList { get; set; }
+
+        /// <summary>
+        /// Список IP-адресов, для которых фильтры применяться не будут
+        /// </summary>
+        public List<string> ExceptionUsers { get; set; }
     }
 }

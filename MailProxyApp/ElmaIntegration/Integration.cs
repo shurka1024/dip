@@ -32,7 +32,7 @@ namespace ElmaIntegration
         /// <summary>
         /// Токен приложения
         /// </summary>
-        private string ApplicationToken = "94DA6109EE4EA8B6DAC4AEFA70537478FB0B4B3C2D34ED9F26B1C3D7C15DBF6B50CCB060919F9F2712090A2784C21CAA57DC08A2031175B128666CE07C2CE020";
+        private string ApplicationToken = "AF2E8183CC0A5291DA695C084A3FF18192EFE4B83C4183CCE26D364470D18034D965829BC4F4FF5682E5A6E9B5BB62980A6612ACD483E31784333D4EC87C841E";
 
         /// <summary>
         /// Настройки JsonSerializer
@@ -154,21 +154,7 @@ namespace ElmaIntegration
         /// <param name="userIp"></param>
         /// <returns></returns>
         public long? CreateIncident(Guid guidFile, string fileName, bool streamIsBlocked, string userIp)
-        {
-            if (userIp == "127.0.0.1")
-            {
-                try
-                {
-                    var localhostName = Dns.GetHostName();
-                    var ip = Dns.GetHostEntry(localhostName).AddressList.FirstOrDefault(a => a.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
-                    if (ip != null)
-                    {
-                        userIp = ip.ToString();
-                    }
-                }
-                catch(Exception ex)
-                { }
-            }
+        {            
             var url = string.Format("{0}/PublicAPI/REST/EleWise.ELMA.MailSniffer/MailSniffer/CreateIncident?guidFile={1}&streamIsBlocked={2}&userIp={3}&fileName={4}", ElmaServer, guidFile, streamIsBlocked, userIp, fileName);
             var incidentIp = RestExecute<long?>(url, "", WebRequestMethods.Http.Post);
             return incidentIp;

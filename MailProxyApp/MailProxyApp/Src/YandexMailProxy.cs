@@ -113,7 +113,21 @@ namespace MailProxyApp.Src
         private static void ReadFromClient(TcpClient client, Stream clientStream, Stream serverStream)
         {
             var message = new byte[BufferSize];
-            var userIpAddress = (client.Client.RemoteEndPoint as IPEndPoint).Address;
+            var userIpAddress = (client.Client.RemoteEndPoint as IPEndPoint).Address.ToString();
+            if (userIpAddress == "127.0.0.1")
+            {
+                try
+                {
+                    var localhostName = Dns.GetHostName();
+                    var ip = Dns.GetHostEntry(localhostName).AddressList.FirstOrDefault(a => a.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+                    if (ip != null)
+                    {
+                        userIpAddress = ip.ToString();
+                    }
+                }
+                catch (Exception ex)
+                { }
+            }
             var fileName = GetReportFileName(userIpAddress);
 
             var fileInfo = new FileInfo(fileName);
@@ -121,21 +135,27 @@ namespace MailProxyApp.Src
                 fileInfo.Create().Dispose();
 
             var currentStatus = CheckStatus.Default;
-            //var previousStatus = CheckStatus.Default;
+            var needControl = string.IsNullOrWhiteSpace(ProxySettings.SnifferSettings.IpExceptionUsers.FirstOrDefault(u => u == userIpAddress));
+            // Всегда создавать инцидент, если пользователь на испытательном сроке или увольнении
+            var alwaysCreateIncident = 
+                !string.IsNullOrWhiteSpace(ProxySettings.SnifferSettings.IpUsersOnProbation.FirstOrDefault(u => u == userIpAddress)) ||
+                !string.IsNullOrWhiteSpace(ProxySettings.SnifferSettings.IpUsersOnDismissal.FirstOrDefault(u => u == userIpAddress));
 
             var streamIsWarning = false;
             var streamIsBlocked = false;
+            int clientBytes;
+
+            clientStream.ReadTimeout = 5000;
 
             using (var fileStream = fileInfo.OpenWrite())
             {
                 while (true)
                 {
-                    int clientBytes;
                     try
                     {
                         clientBytes = clientStream.Read(message, 0, BufferSize);
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         break;
                     }
@@ -146,22 +166,28 @@ namespace MailProxyApp.Src
 
                     // Проверка содержимого буфера
                     // Если один раз уже было возвращено "Прервать поток", больше не проверяем
-                    if (!streamIsBlocked)
+                    if (!streamIsBlocked && needControl)
                     {
                         currentStatus = CheckBuffer(message);
                         streamIsBlocked |= currentStatus == CheckStatus.Stop;
                         streamIsWarning |= currentStatus == CheckStatus.Warning;
                     }
-                    
-                    if(!streamIsBlocked)
-                    {
-                        serverStream.Write(message, 0, clientBytes);
-                    }
-                    else
-                    {
-                        serverStream.Write(new byte[BufferSize], 0, clientBytes);
-                    }
 
+                    try
+                    {
+                        if (!streamIsBlocked || !needControl)
+                        {
+                            serverStream.Write(message, 0, clientBytes);
+                        }
+                        else
+                        {
+                            serverStream.Write(new byte[BufferSize], 0, clientBytes);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
                     //previousStatus = currentStatus;
 
                     //var str = Encoding.GetEncoding(1252).GetString(message);
@@ -171,10 +197,11 @@ namespace MailProxyApp.Src
                 client.Close();                
             }
 
-            if (streamIsBlocked || streamIsWarning)
+            if (streamIsBlocked || streamIsWarning || alwaysCreateIncident)
             {
                 new Task(() => CreateIncident(fileInfo.FullName, streamIsBlocked, userIpAddress.ToString())).Start();
             }
+
             //if(fileInfo.Length == 0)
             //{
             //    fileInfo.Delete();
@@ -193,8 +220,8 @@ namespace MailProxyApp.Src
         /// <returns></returns>
         private static CheckStatus CheckBuffer(byte[] message)
         {
-            var warningList = ProxySettings.SnifferSettings.FilterList.Replace(", ", ",").Split(',');
-            var stopList = ProxySettings.SnifferSettings.BlockFilterList.Replace(", ", ",").Split(',');
+            var warningList = ProxySettings.SnifferSettings.FilterList;
+            var stopList = ProxySettings.SnifferSettings.BlockFilterList;
 
             var mesString = HttpUtility.HtmlDecode(Encoding.UTF8.GetString(message)).ToLower();  // TODO: НЕ РАБОТАЕТЬ!!!!
 
@@ -215,7 +242,7 @@ namespace MailProxyApp.Src
             return CheckStatus.Ok;
         }
 
-        private static string GetReportFileName(IPAddress address)
+        private static string GetReportFileName(string address)
         {
             var now = DateTime.Now;
             var dirName = Setting.ReportDirectory;
