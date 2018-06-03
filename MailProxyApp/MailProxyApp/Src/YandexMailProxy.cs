@@ -3,6 +3,7 @@ using MailProxyApp.Src.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,6 +13,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.UI.WebControls;
+using System.Windows.Forms;
 
 namespace MailProxyApp.Src
 {
@@ -36,11 +39,14 @@ namespace MailProxyApp.Src
 
         private static Integration IntegrationService { get; set; }
 
-        public static void StartListen(Setting settings, string targetHost, string hostName, Integration integration)
+        private static RichTextBox Log { get; set; }
+
+        public static void StartListen(Setting settings, string targetHost, string hostName, Integration integration, RichTextBox log)
         {
             //Port = port;
             TargetHost = targetHost;
             HostName = hostName;
+            Log = log;
 
             //Listener = new TcpListener(IPAddress.Any, Port);
             ProxySettings = settings;
@@ -77,10 +83,10 @@ namespace MailProxyApp.Src
                 new Task(() => ReadFromClient(client, clientStream, serverSslStream)).Start();
                 new Task(() => ReadFromServer(serverSslStream, clientStream)).Start();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
-            }            
+            }
         }
 
         private static bool SslValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyerrors)
@@ -137,7 +143,7 @@ namespace MailProxyApp.Src
             var currentStatus = CheckStatus.Default;
             var needControl = string.IsNullOrWhiteSpace(ProxySettings.SnifferSettings.IpExceptionUsers.FirstOrDefault(u => u == userIpAddress));
             // Всегда создавать инцидент, если пользователь на испытательном сроке или увольнении
-            var alwaysCreateIncident = 
+            var alwaysCreateIncident =
                 !string.IsNullOrWhiteSpace(ProxySettings.SnifferSettings.IpUsersOnProbation.FirstOrDefault(u => u == userIpAddress)) ||
                 !string.IsNullOrWhiteSpace(ProxySettings.SnifferSettings.IpUsersOnDismissal.FirstOrDefault(u => u == userIpAddress));
 
@@ -184,19 +190,18 @@ namespace MailProxyApp.Src
                             serverStream.Write(new byte[BufferSize], 0, clientBytes);
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Debug.WriteLine(ex.Message);
                     }
-                    //previousStatus = currentStatus;
-
-                    //var str = Encoding.GetEncoding(1252).GetString(message);
-                    //var str2 = HttpUtility.HtmlDecode(str);
                     fileStream.Write(message, 0, clientBytes);
                 }
-                client.Close();                
+                client.Close();
             }
 
+            var status = streamIsBlocked ? "Заблокирован" : streamIsWarning ? "Опасно" : "Ок";
+            var color = streamIsBlocked ? Color.Red : streamIsWarning ? Color.Yellow : Color.Green;
+            Log.AppendText(string.Format("Ip: \"{0}\"; Статус: \"{1}\"", userIpAddress, status), color);
             if (streamIsBlocked || streamIsWarning || alwaysCreateIncident)
             {
                 new Task(() => CreateIncident(fileInfo.FullName, streamIsBlocked, userIpAddress.ToString())).Start();
@@ -223,10 +228,10 @@ namespace MailProxyApp.Src
             var warningList = ProxySettings.SnifferSettings.FilterList;
             var stopList = ProxySettings.SnifferSettings.BlockFilterList;
 
-            var mesString = HttpUtility.HtmlDecode(Encoding.UTF8.GetString(message)).ToLower();  // TODO: НЕ РАБОТАЕТЬ!!!!
+            var mesString = HttpUtility.UrlDecode(Encoding.UTF8.GetString(message)).ToLower();
 
             var res1 = stopList.Where(l => mesString.Contains(l.ToLower())).ToList();
-            if(res1.Count > 0)
+            if (res1.Count > 0)
             {
                 Debug.WriteLine(string.Format("Почтовый поток заблокирован. Слово: \"{0}\"", res1.First()));
                 return CheckStatus.Stop;
@@ -236,6 +241,12 @@ namespace MailProxyApp.Src
             if (res2.Count > 0)
             {
                 Debug.WriteLine(string.Format("Найдено слово: \"{0}\"", res2.First()));
+                return CheckStatus.Warning;
+            }
+            var content = "Content-Disposition: form-data; name=\"attachment\";";
+            if (ProxySettings.SnifferSettings.MonitorMailsWithAttachment && mesString.Contains(content.ToLower()))
+            {
+                Debug.WriteLine("Передача вложения по электронной почте");
                 return CheckStatus.Warning;
             }
 

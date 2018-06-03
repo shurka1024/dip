@@ -66,5 +66,10 @@ namespace ElmaIntegration.Models
         /// Список IP-адресов, для которых фильтры применяться не будут
         /// </summary>
         public List<string> IpExceptionUsers { get; set; }
+
+        /// <summary>
+        /// Фиксировать все сообщения с вложениями
+        /// </summary> 
+        public bool MonitorMailsWithAttachment { get; set; }
     }
 }

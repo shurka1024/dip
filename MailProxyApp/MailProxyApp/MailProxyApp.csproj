@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RichTextBoxExtensions.cs" />
     <Compile Include="Src\Models\CheckStatus.cs" />
     <Compile Include="Src\Models\Setting.cs" />
     <Compile Include="Src\Models\SnifferSettings2.cs" />

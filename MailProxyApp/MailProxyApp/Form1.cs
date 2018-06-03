@@ -39,31 +39,40 @@ namespace MailProxyApp
         {
             var snifferSettings = Integration.GetMailSnifferSettings();
 
-            log.Text += "Загружены настройки:" + Environment.NewLine;
-            log.Text += string.Format("FilterList: {0}", string.Join(", ", snifferSettings.FilterList) + Environment.NewLine);
-            log.Text += string.Format("BlockFilterList: {0}", string.Join(", ", snifferSettings.BlockFilterList) + Environment.NewLine);
-            log.Text += string.Format("IpUsersOnProbation: {0}", string.Join(", ", snifferSettings.IpUsersOnProbation) + Environment.NewLine);
-            log.Text += string.Format("IpUsersOnDismissal: {0}", string.Join(", ", snifferSettings.IpUsersOnDismissal) + Environment.NewLine);
-            log.Text += string.Format("IpExceptionUsers: {0}", string.Join(", ", snifferSettings.IpExceptionUsers) + Environment.NewLine);
-            
+            // Отображение полученных настроек
+            textBox1.Text = string.Join(", ", snifferSettings.IpExceptionUsers);
+
+            radioButton5.Checked = snifferSettings.MonitorMailsWithAttachment;
+            radioButton6.Checked = !snifferSettings.MonitorMailsWithAttachment;
+
+            textBox4.Text = string.Join(", ", snifferSettings.FilterList);
+            textBox5.Text = string.Join(", ", snifferSettings.BlockFilterList);
+
+            var usersOnProbationCount = snifferSettings.IpUsersOnProbation.Count;
+            radioButton1.Checked = usersOnProbationCount > 0;
+            radioButton2.Checked = usersOnProbationCount == 0;
+            textBox2.Text = string.Join(", ", snifferSettings.IpUsersOnProbation);
+
+            var usersOnDismissalCount = snifferSettings.IpUsersOnDismissal.Count;
+            radioButton3.Checked = usersOnDismissalCount > 0;
+            radioButton4.Checked = usersOnDismissalCount == 0;
+            textBox3.Text = string.Join(", ", snifferSettings.IpUsersOnDismissal);
+
+            log.AppendText("Загружены настройки:" + Environment.NewLine);
+
             // Путь до сертификата для mail.yandex.ru
             // TODO: Сделать автогенерируемым
             AppSettings.CertificateFileName = @"D:\Учеба (Саша)\Диплом\Разработка\Результат\dip\MailProxyApp\MailProxyApp\Certificates\cer-der(fd-ya).cer";
             //AppSettings.CertificateFileName = @"D:\Учеба (Саша)\Диплом\Разработка\Результат\dip\MailProxyApp\MailProxyApp\Certificates\server.crt";
             
             AppSettings.SnifferSettings = snifferSettings;
-
-            //Proxy = new YandexMailProxy();
-
-            //int port = 443;
+            
             string targetHost = "mail.yandex.ru";
             string ip = "213.180.204.125";
 
-            YandexMailProxy.StartListen(AppSettings, targetHost, ip, Integration);
-            //Proxy.StartListen(settings, 465, "smtp.yandex.com", "213.180.193.38");
+            YandexMailProxy.StartListen(AppSettings, targetHost, ip, Integration, log);
 
-            appStatus.Text = string.Format("Прокси запущен. Порт {0}. Хост: {1}. IP: {2}", YandexMailProxy.Port, targetHost, ip);
-            currentUserInfo.Text = string.Format("Текущий пользователь: {0}", "");
+            log.AppendText(string.Format("Прокси запущен. Порт {0}. Хост: {1}. IP: {2}" + Environment.NewLine, YandexMailProxy.Port, targetHost, ip));
         }        
     }
 }
