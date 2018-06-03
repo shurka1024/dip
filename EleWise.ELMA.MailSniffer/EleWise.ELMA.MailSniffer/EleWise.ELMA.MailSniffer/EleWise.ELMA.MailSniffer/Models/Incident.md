@@ -97,72 +97,6 @@
       <Filterable>true</Filterable>
     </PropertyMetadata>
     <PropertyMetadata xsi:type="EntityPropertyMetadata">
-      <Uid>d187b60f-b679-450e-99db-1af906c5434e</Uid>
-      <Name>ThreadFile</Name>
-      <DisplayName>Содержимое потока</DisplayName>
-      <TypeUid>289f266b-2805-457e-bce0-b0bcd4d38143</TypeUid>
-      <Settings xsi:type="BinaryFileSettings">
-        <FieldName>ThreadFile</FieldName>
-      </Settings>
-      <Nullable>true</Nullable>
-      <ViewSettings>
-        <Attributes>
-          <ViewAttribute>
-            <ViewType>Create</ViewType>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>Edit</ViewType>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>Display</ViewType>
-            <ReadOnly>true</ReadOnly>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>List</ViewType>
-            <Visibility>Hidden</Visibility>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>Filter</ViewType>
-          </ViewAttribute>
-        </Attributes>
-      </ViewSettings>
-      <Order>3</Order>
-    </PropertyMetadata>
-    <PropertyMetadata xsi:type="EntityPropertyMetadata">
-      <Uid>07b51377-f61e-48db-b2f6-cce8d1ce5d90</Uid>
-      <Name>ThreadDoc</Name>
-      <DisplayName>Содержимое потока (документ)</DisplayName>
-      <TypeUid>72ed98ca-f260-4671-9bcd-ff1d80235f47</TypeUid>
-      <SubTypeUid>2b660715-d111-4cc6-acfd-965661719fba</SubTypeUid>
-      <Settings xsi:type="EntitySettings">
-        <FieldName>ThreadDoc</FieldName>
-        <CascadeMode>SaveUpdate</CascadeMode>
-      </Settings>
-      <Nullable>true</Nullable>
-      <ViewSettings>
-        <Attributes>
-          <ViewAttribute>
-            <ViewType>Create</ViewType>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>Edit</ViewType>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>Display</ViewType>
-            <ReadOnly>true</ReadOnly>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>List</ViewType>
-            <Visibility>Hidden</Visibility>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>Filter</ViewType>
-          </ViewAttribute>
-        </Attributes>
-      </ViewSettings>
-      <Order>4</Order>
-    </PropertyMetadata>
-    <PropertyMetadata xsi:type="EntityPropertyMetadata">
       <Uid>9e56a98c-12f0-4e1b-aef0-6c800491d92c</Uid>
       <Name>Name</Name>
       <DisplayName>Наименование</DisplayName>
@@ -192,7 +126,7 @@
           </ViewAttribute>
         </Attributes>
       </ViewSettings>
-      <Order>5</Order>
+      <Order>3</Order>
     </PropertyMetadata>
     <PropertyMetadata xsi:type="EntityPropertyMetadata">
       <Uid>8b8de9c4-9479-4ab3-9fa8-f47e82f2b1de</Uid>
@@ -224,7 +158,7 @@
           </ViewAttribute>
         </Attributes>
       </ViewSettings>
-      <Order>6</Order>
+      <Order>4</Order>
     </PropertyMetadata>
     <PropertyMetadata xsi:type="EntityPropertyMetadata">
       <Uid>3cd5ca6c-5369-4c5e-a4e5-096cbf0da835</Uid>
@@ -256,7 +190,7 @@
           </ViewAttribute>
         </Attributes>
       </ViewSettings>
-      <Order>7</Order>
+      <Order>5</Order>
     </PropertyMetadata>
     <PropertyMetadata xsi:type="EntityPropertyMetadata">
       <Uid>45784e8e-725f-4bf5-a16e-82e0c8e1b031</Uid>
@@ -289,7 +223,7 @@
           </ViewAttribute>
         </Attributes>
       </ViewSettings>
-      <Order>8</Order>
+      <Order>6</Order>
     </PropertyMetadata>
     <PropertyMetadata xsi:type="EntityPropertyMetadata">
       <Uid>c8b5b90d-7316-417a-b510-cb1e83fc04a2</Uid>
@@ -321,7 +255,7 @@
           </ViewAttribute>
         </Attributes>
       </ViewSettings>
-      <Order>9</Order>
+      <Order>7</Order>
     </PropertyMetadata>
     <PropertyMetadata xsi:type="EntityPropertyMetadata">
       <Uid>08e6d290-2758-4794-ac14-3869b4e70142</Uid>
@@ -353,7 +287,44 @@
           </ViewAttribute>
         </Attributes>
       </ViewSettings>
-      <Order>10</Order>
+      <Order>8</Order>
+    </PropertyMetadata>
+    <PropertyMetadata xsi:type="EntityPropertyMetadata">
+      <Uid>835c0923-3420-4a15-bf19-0ef26ad6b61f</Uid>
+      <Name>AttachmentList</Name>
+      <DisplayName>Содержимое почтового потока</DisplayName>
+      <TypeUid>72ed98ca-f260-4671-9bcd-ff1d80235f47</TypeUid>
+      <SubTypeUid>3536c931-154c-4618-93b8-4e35bd8db226</SubTypeUid>
+      <Settings xsi:type="EntitySettings">
+        <RelationType>ManyToMany</RelationType>
+        <RelationTableName>M_Incident_AttachmentList</RelationTableName>
+        <ParentColumnName>Parent</ParentColumnName>
+        <ChildColumnName>Child</ChildColumnName>
+        <CascadeMode>SaveUpdate</CascadeMode>
+      </Settings>
+      <Nullable>true</Nullable>
+      <ViewSettings>
+        <Attributes>
+          <ViewAttribute>
+            <ViewType>Create</ViewType>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Edit</ViewType>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Display</ViewType>
+            <ReadOnly>true</ReadOnly>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>List</ViewType>
+            <Visibility>Hidden</Visibility>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Filter</ViewType>
+          </ViewAttribute>
+        </Attributes>
+      </ViewSettings>
+      <Order>9</Order>
     </PropertyMetadata>
   </Properties>
   <PropertiesDiffContainer />

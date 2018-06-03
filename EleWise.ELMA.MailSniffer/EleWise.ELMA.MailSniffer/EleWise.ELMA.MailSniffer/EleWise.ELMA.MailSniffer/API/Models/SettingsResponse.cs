@@ -33,13 +33,17 @@ namespace EleWise.ELMA.MailSniffer.API.Models
         [DataMember]
         [EleWise.ELMA.Model.Attributes.Description(typeof(__SettingsResponse_SR), "Property_SR")]
         public List<string> IpExceptionUsers { get; set; }
+
+        [DataMember]
+        [EleWise.ELMA.Model.Attributes.Description(typeof(__SettingsResponse_SR), "Property_SR")]
+        public bool MonitorMailsWithAttachment { get; set; }
     }
 
     internal class __SettingsResponse_SR
     {
         public static string Settings { get { return SR.T("Текщие настройки модуля"); } }
-        public static string FilterList { get { return SR.T("Фильтры, при выполнении которых будут отправлены уведомления ответственному"); } }
-        public static string BlockFilterList { get { return SR.T("Фильтры, при выполнении которых почтовый поток будет обрываться"); } }
+        public static string FilterString { get { return SR.T("Фильтры, при выполнении которых будут отправлены уведомления ответственному"); } }
+        public static string BlockFilterString { get { return SR.T("Фильтры, при выполнении которых почтовый поток будет обрываться"); } }
         public static string Property_SR { get { return SR.T("Свойство SettingsResponse"); } }
     }
 }

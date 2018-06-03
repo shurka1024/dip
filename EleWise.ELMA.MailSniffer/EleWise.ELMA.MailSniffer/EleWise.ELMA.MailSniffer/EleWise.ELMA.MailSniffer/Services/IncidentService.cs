@@ -40,7 +40,7 @@ namespace EleWise.ELMA.MailSniffer.Services
                     , incident.CreationDate.Value.ToShortDateString()
                     , incident.CreationDate.Value.ToShortTimeString()
                     , incident.Status);
-                message.Attachments.Add(AttachmentManager.Instance.Create(incident.ThreadFile));
+                //message.Attachments.Add(AttachmentManager.Instance.Create(incident.ThreadFile));
 
                 // Создание статуса сообщения (новое или прочитанное)
                 foreach (var recipient in message.Recipients)

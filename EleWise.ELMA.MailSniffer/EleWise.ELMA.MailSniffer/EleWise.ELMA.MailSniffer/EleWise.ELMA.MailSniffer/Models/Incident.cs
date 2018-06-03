@@ -97,50 +97,10 @@
         }
         
         /// <summary>
-        /// Содержимое потока
-        /// </summary>
-        [global::EleWise.ELMA.Model.Attributes.Uid("d187b60f-b679-450e-99db-1af906c5434e")]
-        [global::EleWise.ELMA.Model.Attributes.Order(3)]
-        [global::EleWise.ELMA.Model.Attributes.Property("289f266b-2805-457e-bce0-b0bcd4d38143")]
-        [global::EleWise.ELMA.Model.Types.Settings.BinaryFileSettings(FieldName="ThreadFile")]
-        [global::EleWise.ELMA.Model.Attributes.DisplayName(typeof(@__Resources_IIncident), "P_ThreadFile_DisplayName")]
-        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Create, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
-        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Edit, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
-        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Display, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=true)]
-        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.List, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Hidden, ReadOnly=false)]
-        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Filter, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
-        [global::EleWise.ELMA.Model.Attributes.EntityProperty()]
-        EleWise.ELMA.Files.BinaryFile ThreadFile
-        {
-            get;
-            set;
-        }
-        
-        /// <summary>
-        /// Содержимое потока (документ)
-        /// </summary>
-        [global::EleWise.ELMA.Model.Attributes.Uid("07b51377-f61e-48db-b2f6-cce8d1ce5d90")]
-        [global::EleWise.ELMA.Model.Attributes.Order(4)]
-        [global::EleWise.ELMA.Model.Attributes.Property("72ed98ca-f260-4671-9bcd-ff1d80235f47", "2b660715-d111-4cc6-acfd-965661719fba")]
-        [global::EleWise.ELMA.Model.Types.Settings.EntitySettings(CascadeMode=global::EleWise.ELMA.Model.Types.Settings.CascadeMode.SaveUpdate, FieldName="ThreadDoc")]
-        [global::EleWise.ELMA.Model.Attributes.DisplayName(typeof(@__Resources_IIncident), "P_ThreadDoc_DisplayName")]
-        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Create, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
-        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Edit, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
-        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Display, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=true)]
-        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.List, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Hidden, ReadOnly=false)]
-        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Filter, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
-        [global::EleWise.ELMA.Model.Attributes.EntityProperty()]
-        EleWise.ELMA.Documents.Models.IDocument ThreadDoc
-        {
-            get;
-            set;
-        }
-        
-        /// <summary>
         /// Наименование
         /// </summary>
         [global::EleWise.ELMA.Model.Attributes.Uid("9e56a98c-12f0-4e1b-aef0-6c800491d92c")]
-        [global::EleWise.ELMA.Model.Attributes.Order(5)]
+        [global::EleWise.ELMA.Model.Attributes.Order(3)]
         [global::EleWise.ELMA.Model.Attributes.Property("9b9aac17-22bb-425c-aa93-9c02c5146965")]
         [global::EleWise.ELMA.Model.Types.Settings.StringSettings(FieldName="Name")]
         [global::EleWise.ELMA.Model.Attributes.DisplayName(typeof(@__Resources_IIncident), "P_Name_DisplayName")]
@@ -160,7 +120,7 @@
         /// IP адрес
         /// </summary>
         [global::EleWise.ELMA.Model.Attributes.Uid("8b8de9c4-9479-4ab3-9fa8-f47e82f2b1de")]
-        [global::EleWise.ELMA.Model.Attributes.Order(6)]
+        [global::EleWise.ELMA.Model.Attributes.Order(4)]
         [global::EleWise.ELMA.Model.Attributes.Property("9b9aac17-22bb-425c-aa93-9c02c5146965")]
         [global::EleWise.ELMA.Model.Types.Settings.StringSettings(FieldName="IPAdress")]
         [global::EleWise.ELMA.Model.Attributes.DisplayName(typeof(@__Resources_IIncident), "P_IPAdress_DisplayName")]
@@ -180,7 +140,7 @@
         /// Наименование файла
         /// </summary>
         [global::EleWise.ELMA.Model.Attributes.Uid("3cd5ca6c-5369-4c5e-a4e5-096cbf0da835")]
-        [global::EleWise.ELMA.Model.Attributes.Order(7)]
+        [global::EleWise.ELMA.Model.Attributes.Order(5)]
         [global::EleWise.ELMA.Model.Attributes.Property("9b9aac17-22bb-425c-aa93-9c02c5146965")]
         [global::EleWise.ELMA.Model.Types.Settings.StringSettings(FieldName="FileName")]
         [global::EleWise.ELMA.Model.Attributes.DisplayName(typeof(@__Resources_IIncident), "P_FileName_DisplayName")]
@@ -200,7 +160,7 @@
         /// Описание
         /// </summary>
         [global::EleWise.ELMA.Model.Attributes.Uid("45784e8e-725f-4bf5-a16e-82e0c8e1b031")]
-        [global::EleWise.ELMA.Model.Attributes.Order(8)]
+        [global::EleWise.ELMA.Model.Attributes.Order(6)]
         [global::EleWise.ELMA.Model.Attributes.Property("9b9aac17-22bb-425c-aa93-9c02c5146965")]
         [global::EleWise.ELMA.Model.Types.Settings.StringSettings(MultiLine=true, FieldName="Description")]
         [global::EleWise.ELMA.Model.Attributes.DisplayName(typeof(@__Resources_IIncident), "P_Description_DisplayName")]
@@ -220,7 +180,7 @@
         /// Дата создания
         /// </summary>
         [global::EleWise.ELMA.Model.Attributes.Uid("c8b5b90d-7316-417a-b510-cb1e83fc04a2")]
-        [global::EleWise.ELMA.Model.Attributes.Order(9)]
+        [global::EleWise.ELMA.Model.Attributes.Order(7)]
         [global::EleWise.ELMA.ComponentModel.CanBeNull()]
         [global::EleWise.ELMA.Model.Attributes.Property("dac9211e-e02b-47cd-8868-89a3bfc0f749")]
         [global::EleWise.ELMA.Model.Types.Settings.DateTimeSettings(FieldName="CreationDate")]
@@ -241,7 +201,7 @@
         /// Дата записи последнего инцидента
         /// </summary>
         [global::EleWise.ELMA.Model.Attributes.Uid("08e6d290-2758-4794-ac14-3869b4e70142")]
-        [global::EleWise.ELMA.Model.Attributes.Order(10)]
+        [global::EleWise.ELMA.Model.Attributes.Order(8)]
         [global::EleWise.ELMA.ComponentModel.CanBeNull()]
         [global::EleWise.ELMA.Model.Attributes.Property("dac9211e-e02b-47cd-8868-89a3bfc0f749")]
         [global::EleWise.ELMA.Model.Types.Settings.DateTimeSettings(FieldName="LastIncidentDate")]
@@ -253,6 +213,26 @@
         [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Filter, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
         [global::EleWise.ELMA.Model.Attributes.EntityProperty()]
         System.Nullable<System.DateTime> LastIncidentDate
+        {
+            get;
+            set;
+        }
+        
+        /// <summary>
+        /// Содержимое почтового потока
+        /// </summary>
+        [global::EleWise.ELMA.Model.Attributes.Uid("835c0923-3420-4a15-bf19-0ef26ad6b61f")]
+        [global::EleWise.ELMA.Model.Attributes.Order(9)]
+        [global::EleWise.ELMA.Model.Attributes.Property("72ed98ca-f260-4671-9bcd-ff1d80235f47", "3536c931-154c-4618-93b8-4e35bd8db226")]
+        [global::EleWise.ELMA.Model.Types.Settings.EntitySettings(RelationType=global::EleWise.ELMA.Model.Types.Settings.RelationType.ManyToMany, RelationTableName="M_Incident_AttachmentList", ParentColumnName="Parent", ChildColumnName="Child", CascadeMode=global::EleWise.ELMA.Model.Types.Settings.CascadeMode.SaveUpdate)]
+        [global::EleWise.ELMA.Model.Attributes.DisplayName(typeof(@__Resources_IIncident), "P_AttachmentList_DisplayName")]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Create, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Edit, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Display, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=true)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.List, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Hidden, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Filter, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.EntityProperty()]
+        Iesi.Collections.Generic.ISet<EleWise.ELMA.Common.Models.IAttachment> AttachmentList
         {
             get;
             set;
@@ -291,22 +271,6 @@
             get
             {
                 return global::EleWise.ELMA.SR.T("Статус");
-            }
-        }
-        
-        public static string P_ThreadFile_DisplayName
-        {
-            get
-            {
-                return global::EleWise.ELMA.SR.T("Содержимое потока");
-            }
-        }
-        
-        public static string P_ThreadDoc_DisplayName
-        {
-            get
-            {
-                return global::EleWise.ELMA.SR.T("Содержимое потока (документ)");
             }
         }
         
@@ -355,6 +319,14 @@
             get
             {
                 return global::EleWise.ELMA.SR.T("Дата записи последнего инцидента");
+            }
+        }
+        
+        public static string P_AttachmentList_DisplayName
+        {
+            get
+            {
+                return global::EleWise.ELMA.SR.T("Содержимое почтового потока");
             }
         }
         

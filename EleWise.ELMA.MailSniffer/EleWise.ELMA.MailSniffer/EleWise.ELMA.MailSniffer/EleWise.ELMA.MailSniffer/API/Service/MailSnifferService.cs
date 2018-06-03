@@ -18,6 +18,9 @@ using EleWise.ELMA.Model.Services;
 using EleWise.ELMA.Security.Managers;
 using EleWise.ELMA.MailSniffer.Services;
 using EleWise.ELMA.MailSniffer.Managers;
+using EleWise.ELMA.Extensions;
+using EleWise.ELMA.Common.Models;
+using EleWise.ELMA.Model.Types;
 
 namespace EleWise.ELMA.MailSniffer.API.Service
 {
@@ -61,7 +64,8 @@ namespace EleWise.ELMA.MailSniffer.API.Service
             {
                 FilterString = settings.FilterList,
                 BlockFilterString = settings.BlockFilterList,
-                IpExceptionUsers = manager.GetUsersIpAddresses(settings.ExceptionUsers).ToList()
+                IpExceptionUsers = manager.GetUsersIpAddresses(settings.ExceptionUsers).ToList(),
+                MonitorMailsWithAttachment = settings.MonitorMailsWithAttachment
             };
             if (settings.MonitorEmployeesOnProbation)
             {
@@ -98,11 +102,16 @@ namespace EleWise.ELMA.MailSniffer.API.Service
                 incident.Status = streamIsBlocked ? SniffState.Stop : SniffState.Warning;
             }
 
-            var cacheFilesService = Locator.GetService<ICacheFilesService>();
-            var file = cacheFilesService.GetFilePath(guidFile);
+            //var cacheFilesService = Locator.GetService<ICacheFilesService>();
+            //var file = cacheFilesService.GetBinaryFile(guidFile);
+            var file = BinaryFileDescriptor.Download(guidFile);
 
-            incident.ThreadFile = null;     // !!!
-            //incident.FileName = fileName;
+            var attachment = InterfaceActivator.Create<IAttachment>();
+            attachment.File = file;
+            attachment.CreationDate = DateTime.Now;
+            attachment.CreationAuthor = UserManager.Instance.GetCurrentUser();
+
+            incident.AttachmentList.Add(attachment);
             incident.Save();
 
             Locator.GetService<IncidentService>().CreateMessage(incident.Id);
