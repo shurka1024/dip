@@ -1,5 +1,9 @@
-﻿using EleWise.ELMA.Common.Managers;
+﻿using System.Text.RegularExpressions;
+using EleWise.ELMA.Common.Managers;
 using EleWise.ELMA.ComponentModel;
+using EleWise.ELMA.Documents.Managers;
+using EleWise.ELMA.Extensions;
+using EleWise.ELMA.Files;
 using EleWise.ELMA.MailSniffer.Models;
 using EleWise.ELMA.Messages.Models;
 using EleWise.ELMA.Model.Managers;
@@ -54,6 +58,38 @@ namespace EleWise.ELMA.MailSniffer.Services
                 }
                 message.Save();
             }
+        }
+
+        public ICollection<string> CheckFileOnWarningFilter(BinaryFile file)
+        {
+            var settings = Locator.GetService<MailSnifferSettingsModule>().Settings;
+            var list = CheckFileOnFilter(file, settings.FilterList);
+            return list;
+        }
+
+        public ICollection<string> CheckFileOnStopFilter(BinaryFile file)
+        {
+            var settings = Locator.GetService<MailSnifferSettingsModule>().Settings;
+            var list = CheckFileOnFilter(file, settings.BlockFilterList);
+            return list;
+        }
+
+        private ICollection<string> CheckFileOnFilter(BinaryFile file, string filterString)
+        {
+            var filterList = !string.IsNullOrWhiteSpace(filterString) ?
+                    filterString.Trim().Split('\n').ToList() :
+                    new List<string>();
+
+            var list = new List<string>();
+            var content = WebDocumentManager.Instance.GetContentFromFile(file);
+            if (!content.IsNullOrWhiteSpace() && filterList.Count > 0)
+            {
+                list.AddRange(
+                    from filter in filterList let amount = new Regex(filter.ToLower()).Matches(content.ToLower()).Count 
+                    where amount > 0 
+                    select SR.T("\"{0}\" : {1} раз;", filter, amount));
+            }
+            return list;
         }
     }
 }

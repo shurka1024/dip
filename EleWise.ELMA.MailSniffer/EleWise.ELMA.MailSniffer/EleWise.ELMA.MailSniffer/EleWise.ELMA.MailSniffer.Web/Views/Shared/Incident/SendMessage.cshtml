@@ -1,9 +1,34 @@
 ﻿@model IIncident
 
 @using EleWise.ELMA.MailSniffer.Models
+@using EleWise.ELMA.Services
+@using EleWise.ELMA.MailSniffer.API.Service
+@using EleWise.ELMA.MailSniffer.API.Models
+@using EleWise.ELMA.MailSniffer.Services
+
+@{
+    var service = Locator.GetService<IncidentService>();
+    var wl = new List<string>();
+    var sl = new List<string>();
+    if (Model.ThreadFile != null)
+    {
+        wl.AddRange(service.CheckFileOnWarningFilter(Model.ThreadFile));
+        sl.AddRange(service.CheckFileOnStopFilter(Model.ThreadFile));
+    }
+}
 
 <input class="submit" type="button" name="send_message_button" value="Отправить сообщение об инциденте" onclick="SendMessage(@Model.Id)" />
+<div>Warning</div>
+@foreach (var w in wl)
+{
+    <div>@w</div>
+}
 
+<div>Stop</div>
+@foreach (var s in sl)
+{
+    <div>@s</div>
+}
 <script>
     function SendMessage(id) {
         $.ajax({

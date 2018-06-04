@@ -6,6 +6,7 @@ using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
 using System.Text;
 using EleWise.ELMA.ComponentModel;
+using EleWise.ELMA.Extensions;
 using EleWise.ELMA.Model.Attributes;
 using EleWise.ELMA.Services;
 using EleWise.ELMA.Services.Public;
@@ -45,6 +46,14 @@ namespace EleWise.ELMA.MailSniffer.API.Service
         [Description("Создать инцидент")]
         [WsdlDocumentation("Создать инцидент")]
         long CreateIncident(Guid guidFile, bool streamIsBlocked, string userIp, string fileName);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/CheckLoadedFile?guidFile={guidFile}")]
+        [AuthorizeOperationBehavior]
+        [FaultContract(typeof(PublicServiceException))]
+        [Description("Проверить файл")]
+        [WsdlDocumentation("Проверить файл")]
+        CheckStatus CheckLoadedFile(Guid guidFile);
     }
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, MaxItemsInObjectGraph = int.MaxValue)]
@@ -116,6 +125,27 @@ namespace EleWise.ELMA.MailSniffer.API.Service
 
             Locator.GetService<IncidentService>().CreateMessage(incident.Id);
             return incident.Id;
+        }
+
+        public CheckStatus CheckLoadedFile(Guid guidFile)
+        {
+            var cacheFilesService = Locator.GetService<ICacheFilesService>();
+            var file = cacheFilesService.GetBinaryFile(guidFile);
+            var service = Locator.GetService<IncidentService>();
+
+            var stopCheck = service.CheckFileOnStopFilter(file);
+            if (stopCheck.Count > 0)
+            {
+                return CheckStatus.Stop;
+            }
+
+            var warningCheck = service.CheckFileOnWarningFilter(file);
+            if (warningCheck.Count > 0)
+            {
+                return CheckStatus.Warning;
+            }
+
+            return CheckStatus.Ok;
         }
     }
 }
