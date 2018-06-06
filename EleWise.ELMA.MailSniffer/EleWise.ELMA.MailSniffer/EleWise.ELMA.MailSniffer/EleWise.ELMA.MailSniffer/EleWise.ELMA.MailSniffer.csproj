@@ -73,6 +73,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -100,6 +101,7 @@
     <None Include="Properties\EleWise.ELMA.MailSniffer.nuspec" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Models\CheckStatus.cs" />
     <Compile Include="API\Models\SettingsResponse.cs" />
     <Compile Include="Managers\IncidentManager.cs" />
     <Compile Include="Managers\UserManagerExt.cs" />

@@ -237,6 +237,26 @@
             get;
             set;
         }
+        
+        /// <summary>
+        /// Вложения в письмах
+        /// </summary>
+        [global::EleWise.ELMA.Model.Attributes.Uid("9a4fe5b2-d7c5-4cb0-8b11-c9f9845e0593")]
+        [global::EleWise.ELMA.Model.Attributes.Order(10)]
+        [global::EleWise.ELMA.Model.Attributes.Property("72ed98ca-f260-4671-9bcd-ff1d80235f47", "3536c931-154c-4618-93b8-4e35bd8db226")]
+        [global::EleWise.ELMA.Model.Types.Settings.EntitySettings(RelationType=global::EleWise.ELMA.Model.Types.Settings.RelationType.ManyToMany, RelationTableName="M_Incident_MailAttachments", ParentColumnName="Parent", ChildColumnName="Child", CascadeMode=global::EleWise.ELMA.Model.Types.Settings.CascadeMode.SaveUpdate)]
+        [global::EleWise.ELMA.Model.Attributes.DisplayName(typeof(@__Resources_IIncident), "P_MailAttachments_DisplayName")]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Create, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Edit, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Display, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=true)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.List, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Hidden, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.View(ViewType=global::EleWise.ELMA.Model.Views.ViewType.Filter, ItemType=global::EleWise.ELMA.Model.Views.ItemType.Default, Visibility=global::EleWise.ELMA.Model.Views.Visibility.Visible, ReadOnly=false)]
+        [global::EleWise.ELMA.Model.Attributes.EntityProperty()]
+        Iesi.Collections.Generic.ISet<EleWise.ELMA.Common.Models.IAttachment> MailAttachments
+        {
+            get;
+            set;
+        }
     }
     
     internal class @__Resources_IIncident
@@ -327,6 +347,14 @@
             get
             {
                 return global::EleWise.ELMA.SR.T("Содержимое почтового потока");
+            }
+        }
+        
+        public static string P_MailAttachments_DisplayName
+        {
+            get
+            {
+                return global::EleWise.ELMA.SR.T("Вложения в письмах");
             }
         }
         

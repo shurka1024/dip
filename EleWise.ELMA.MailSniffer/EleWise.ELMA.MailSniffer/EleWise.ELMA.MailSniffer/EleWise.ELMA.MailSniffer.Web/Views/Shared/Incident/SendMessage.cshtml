@@ -8,12 +8,13 @@
 
 @{
     var service = Locator.GetService<IncidentService>();
+    //service.GenerateAttachmentsFromFile(Model.Id);
     var wl = new List<string>();
     var sl = new List<string>();
-    if (Model.ThreadFile != null)
+    if (Model.AttachmentList.Any())
     {
-        wl.AddRange(service.CheckFileOnWarningFilter(Model.ThreadFile));
-        sl.AddRange(service.CheckFileOnStopFilter(Model.ThreadFile));
+        wl.AddRange(service.CheckFileOnWarningFilter(Model.AttachmentList.FirstOrDefault().File));
+        sl.AddRange(service.CheckFileOnStopFilter(Model.AttachmentList.FirstOrDefault().File));
     }
 }
 

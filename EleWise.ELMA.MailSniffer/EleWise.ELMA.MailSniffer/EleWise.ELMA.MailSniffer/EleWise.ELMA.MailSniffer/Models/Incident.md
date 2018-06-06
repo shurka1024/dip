@@ -326,6 +326,43 @@
       </ViewSettings>
       <Order>9</Order>
     </PropertyMetadata>
+    <PropertyMetadata xsi:type="EntityPropertyMetadata">
+      <Uid>9a4fe5b2-d7c5-4cb0-8b11-c9f9845e0593</Uid>
+      <Name>MailAttachments</Name>
+      <DisplayName>Вложения в письмах</DisplayName>
+      <TypeUid>72ed98ca-f260-4671-9bcd-ff1d80235f47</TypeUid>
+      <SubTypeUid>3536c931-154c-4618-93b8-4e35bd8db226</SubTypeUid>
+      <Settings xsi:type="EntitySettings">
+        <RelationType>ManyToMany</RelationType>
+        <RelationTableName>M_Incident_MailAttachments</RelationTableName>
+        <ParentColumnName>Parent</ParentColumnName>
+        <ChildColumnName>Child</ChildColumnName>
+        <CascadeMode>SaveUpdate</CascadeMode>
+      </Settings>
+      <Nullable>true</Nullable>
+      <ViewSettings>
+        <Attributes>
+          <ViewAttribute>
+            <ViewType>Create</ViewType>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Edit</ViewType>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Display</ViewType>
+            <ReadOnly>true</ReadOnly>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>List</ViewType>
+            <Visibility>Hidden</Visibility>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Filter</ViewType>
+          </ViewAttribute>
+        </Attributes>
+      </ViewSettings>
+      <Order>10</Order>
+    </PropertyMetadata>
   </Properties>
   <PropertiesDiffContainer />
   <FormsScheme>FormConstructor</FormsScheme>
