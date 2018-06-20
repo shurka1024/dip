@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,9 +63,11 @@ namespace MailProxyApp
 
             // Путь до сертификата для mail.yandex.ru
             // TODO: Сделать автогенерируемым
-            AppSettings.CertificateFileName = @"D:\Учеба (Саша)\Диплом\Разработка\Результат\dip\MailProxyApp\MailProxyApp\Certificates\cer-der(fd-ya).cer";
-            //AppSettings.CertificateFileName = @"D:\Учеба (Саша)\Диплом\Разработка\Результат\dip\MailProxyApp\MailProxyApp\Certificates\server.crt";
-            
+            //AppSettings.CertificateFileName = @"D:\Учеба (Саша)\Диплом\Разработка\Результат\dip\MailProxyApp\MailProxyApp\Certificates\cer-der(fd-ya).cer";
+            //AppSettings.CertificateFileName = @"D:\Учеба (Саша)\Диплом\Сертификаты\Ром\client.cer";
+            //AppSettings.CertificateFileName = @"D:\Учеба (Саша)\Диплом\Сертификаты\Ром\rootCA.pfx";
+            var textFile = Encoding.Default.GetString(File.ReadAllBytes(@"D:\Учеба (Саша)\Диплом\Разработка\Результат\dip\MailProxyApp\MailProxyApp\Certificates\certFullName.txt"));
+            AppSettings.CertificateFileName = textFile;
             AppSettings.SnifferSettings = snifferSettings;
             
             string targetHost = "mail.yandex.ru";

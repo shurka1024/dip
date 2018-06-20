@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,13 @@ namespace ElmaIntegration.Models
             HTTPMethod = httpMethod;
         }
 
+        public RestData(string url, Stream stream, string httpMethod)
+        {
+            Url = url;
+            Stream = stream;
+            HTTPMethod = httpMethod;
+        }
+
         /// <summary>
         /// URL Метода
         /// </summary>
@@ -34,6 +42,8 @@ namespace ElmaIntegration.Models
         /// Сериализованные данные
         /// </summary>
         public string Data;
+
+        public Stream Stream;
 
         /// <summary>
         /// Метод запроса (POST/GET)

@@ -37,10 +37,10 @@ namespace MailProxyApp.Src.Models
 
                 try
                 {
-                    _certificate = new X509Certificate2(CertificateFileName);
+                    _certificate = new X509Certificate2(CertificateFileName, "1");
                     return _certificate;
                 }
-                catch
+                catch(Exception ex)
                 {
                     return null;
                 }

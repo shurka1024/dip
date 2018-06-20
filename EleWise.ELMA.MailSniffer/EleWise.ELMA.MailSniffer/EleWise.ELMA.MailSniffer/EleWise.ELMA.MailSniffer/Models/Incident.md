@@ -161,38 +161,6 @@
       <Order>4</Order>
     </PropertyMetadata>
     <PropertyMetadata xsi:type="EntityPropertyMetadata">
-      <Uid>3cd5ca6c-5369-4c5e-a4e5-096cbf0da835</Uid>
-      <Name>FileName</Name>
-      <DisplayName>Наименование файла</DisplayName>
-      <TypeUid>9b9aac17-22bb-425c-aa93-9c02c5146965</TypeUid>
-      <Settings xsi:type="StringSettings">
-        <FieldName>FileName</FieldName>
-      </Settings>
-      <Nullable>true</Nullable>
-      <ViewSettings>
-        <Attributes>
-          <ViewAttribute>
-            <ViewType>Create</ViewType>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>Edit</ViewType>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>Display</ViewType>
-            <ReadOnly>true</ReadOnly>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>List</ViewType>
-            <Visibility>Hidden</Visibility>
-          </ViewAttribute>
-          <ViewAttribute>
-            <ViewType>Filter</ViewType>
-          </ViewAttribute>
-        </Attributes>
-      </ViewSettings>
-      <Order>5</Order>
-    </PropertyMetadata>
-    <PropertyMetadata xsi:type="EntityPropertyMetadata">
       <Uid>45784e8e-725f-4bf5-a16e-82e0c8e1b031</Uid>
       <Name>Description</Name>
       <DisplayName>Описание</DisplayName>
@@ -223,7 +191,7 @@
           </ViewAttribute>
         </Attributes>
       </ViewSettings>
-      <Order>6</Order>
+      <Order>5</Order>
     </PropertyMetadata>
     <PropertyMetadata xsi:type="EntityPropertyMetadata">
       <Uid>c8b5b90d-7316-417a-b510-cb1e83fc04a2</Uid>
@@ -255,7 +223,7 @@
           </ViewAttribute>
         </Attributes>
       </ViewSettings>
-      <Order>7</Order>
+      <Order>6</Order>
     </PropertyMetadata>
     <PropertyMetadata xsi:type="EntityPropertyMetadata">
       <Uid>08e6d290-2758-4794-ac14-3869b4e70142</Uid>
@@ -287,7 +255,7 @@
           </ViewAttribute>
         </Attributes>
       </ViewSettings>
-      <Order>8</Order>
+      <Order>7</Order>
     </PropertyMetadata>
     <PropertyMetadata xsi:type="EntityPropertyMetadata">
       <Uid>835c0923-3420-4a15-bf19-0ef26ad6b61f</Uid>
@@ -324,7 +292,7 @@
           </ViewAttribute>
         </Attributes>
       </ViewSettings>
-      <Order>9</Order>
+      <Order>8</Order>
     </PropertyMetadata>
     <PropertyMetadata xsi:type="EntityPropertyMetadata">
       <Uid>9a4fe5b2-d7c5-4cb0-8b11-c9f9845e0593</Uid>
@@ -347,6 +315,40 @@
           </ViewAttribute>
           <ViewAttribute>
             <ViewType>Edit</ViewType>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Display</ViewType>
+            <ReadOnly>true</ReadOnly>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>List</ViewType>
+            <Visibility>Hidden</Visibility>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Filter</ViewType>
+          </ViewAttribute>
+        </Attributes>
+      </ViewSettings>
+      <Order>9</Order>
+    </PropertyMetadata>
+    <PropertyMetadata xsi:type="EntityPropertyMetadata">
+      <Uid>0905adfe-c603-4712-a1d1-aac0035a009f</Uid>
+      <Name>Confirmed</Name>
+      <DisplayName>Подтвержден</DisplayName>
+      <TypeUid>9cd56a40-6192-4d8a-840c-c4bd4dfb88eb</TypeUid>
+      <Settings xsi:type="BoolSettings">
+        <FieldName>Confirmed</FieldName>
+      </Settings>
+      <Nullable>false</Nullable>
+      <ViewSettings>
+        <Attributes>
+          <ViewAttribute>
+            <ViewType>Create</ViewType>
+            <ReadOnly>true</ReadOnly>
+          </ViewAttribute>
+          <ViewAttribute>
+            <ViewType>Edit</ViewType>
+            <ReadOnly>true</ReadOnly>
           </ViewAttribute>
           <ViewAttribute>
             <ViewType>Display</ViewType>

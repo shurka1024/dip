@@ -179,6 +179,12 @@ namespace EleWise.ELMA.MailSniffer
         /// </summary> 
         [DisplayName(typeof(MailSniffer_SR), "P_MonitorMailsWithAttachment")]
         public bool MonitorMailsWithAttachment { get; set; }
+
+        /// <summary>
+        /// Фиксировать все сообщения с вложениями
+        /// </summary> 
+        [DisplayName(typeof(MailSniffer_SR), "P_NotifyEmployees")]
+        public bool NotifyEmployees { get; set; }
     }
 
     internal class MailSniffer_SR
@@ -196,5 +202,6 @@ namespace EleWise.ELMA.MailSniffer
         public static string P_EmployeesOnDismissal { get { return SR.T("Пользователи, подавшие заявление на увольнение"); } }
         public static string P_ExceptionUsers { get { return SR.T("Пользователи, для которых фильтры применяться не будут"); } }
         public static string P_MonitorMailsWithAttachment { get { return SR.T("Фиксировать все сообщения с вложениями"); } }
+        public static string P_NotifyEmployees { get { return SR.T("Отправлять сообщение сотрудникам, совершивших инцидент"); } }
     }
 }

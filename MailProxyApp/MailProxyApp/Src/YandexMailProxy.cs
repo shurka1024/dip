@@ -85,6 +85,7 @@ namespace MailProxyApp.Src
             }
             catch (Exception ex)
             {
+                Log.AppendText(ex.Message + Environment.NewLine, Color.Red);
                 throw;
             }
         }
@@ -194,14 +195,19 @@ namespace MailProxyApp.Src
                     {
                         Debug.WriteLine(ex.Message);
                     }
+                    //Декодируем русские символы
+                    //var encoding = Encoding.UTF8;
+                    //var decodedMessage = HttpUtility.UrlDecode(message, encoding);
+
+                    //fileStream.Write(encoding.GetBytes(decodedMessage), 0, clientBytes);
                     fileStream.Write(message, 0, clientBytes);
                 }
                 client.Close();
             }
 
-            var status = streamIsBlocked ? "Заблокирован" : streamIsWarning ? "Опасно" : "Ок";
-            var color = streamIsBlocked ? Color.Red : streamIsWarning ? Color.Yellow : Color.Green;
-            Log.AppendText(string.Format("Ip: \"{0}\"; Статус: \"{1}\"", userIpAddress, status), color);
+            var status = streamIsBlocked ? "Заблокировано" : streamIsWarning ? "Предупреждение" : "Ок";
+            var color = streamIsBlocked ? Color.Red : streamIsWarning ? Color.Orange : Color.Green;
+            Log.AppendText(string.Format("Время: \"{0} : {1}\"; Ip: \"{2}\"; Статус: \"{3}\"" + Environment.NewLine, DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString(), userIpAddress, status), color);
             if (streamIsBlocked || streamIsWarning || alwaysCreateIncident)
             {
                 new Task(() => CreateIncident(fileInfo.FullName, streamIsBlocked, userIpAddress.ToString())).Start();
@@ -257,7 +263,7 @@ namespace MailProxyApp.Src
         {
             var now = DateTime.Now;
             var dirName = Setting.ReportDirectory;
-            var fileName = string.Format("Report_{0}{1}{2}_{3}{4}{5}_{6}_{7}"
+            var fileName = string.Format("Report_{0}{1}{2}_{3}{4}{5}_{6}_{7}.txt"
                 , now.Day
                 , now.Month
                 , now.Year

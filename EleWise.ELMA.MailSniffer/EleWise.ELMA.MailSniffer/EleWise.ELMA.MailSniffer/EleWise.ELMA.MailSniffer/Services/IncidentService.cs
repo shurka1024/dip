@@ -19,6 +19,10 @@ using System.Web;
 using System.IO;
 using EleWise.ELMA.Runtime.Managers;
 using EleWise.ELMA.Common.Models;
+using EleWise.ELMA.Workflow.Managers;
+using EleWise.ELMA.Web.Service.v1;
+using EleWise.ELMA.Workflow.Services;
+using EleWise.ELMA.Runtime.Db.Migrator.Framework;
 
 namespace EleWise.ELMA.MailSniffer.Services
 {
@@ -66,6 +70,43 @@ namespace EleWise.ELMA.MailSniffer.Services
             }
         }
 
+        public void StartProcess(IIncident incident)
+        {
+            var startableProcess = ProcessHeaderManager.Instance.GetStartableProcesses().FirstOrDefault(a => a.Name == "Уведомление об инциденте" && a.Published != null);
+            if (startableProcess != null)
+            {
+                var settings = Locator.GetService<MailSnifferSettingsModule>().Settings;
+                var workflowService = Locator.GetServiceNotNull<IWorkflowRuntimeService>();
+
+                var process = startableProcess.Published;
+                var instance = WorkflowInstanceManager.Instance.Create();
+                instance.Process = process;
+                instance.Name = SR.T("Уведомление об инциденте {0}", incident.Id);
+
+                var dynamicContext = instance.Context.AsDynamic();
+                dynamicContext.Incident = incident;
+                dynamicContext.Sotrudnik = incident.User;
+                dynamicContext.Otvetstvennyy = settings.NotifyUsers.First();
+
+                instance.Initiator = UserManager.Instance.GetCurrentUser();
+                workflowService.Run(instance);
+            }
+        }
+
+        /// <summary>
+        /// Проверяет наличие запущенных процессов с данным инцидентом
+        /// </summary>
+        /// <param name="incident"></param>
+        /// <returns></returns>
+        public bool CheckStartedProcesses(IIncident incident)
+        {
+            var transformationProvider = Locator.GetServiceNotNull<ITransformationProvider>();
+            using (var reader = transformationProvider.ExecuteQuery(string.Format(@"select * from P_UvedomlenieObIncidente where incident = {0}", incident.Id)))
+            {
+                return reader.Read();
+            }
+        }
+
         public ICollection<string> CheckFileOnWarningFilter(BinaryFile file)
         {
             var settings = Locator.GetService<MailSnifferSettingsModule>().Settings;
@@ -87,7 +128,7 @@ namespace EleWise.ELMA.MailSniffer.Services
                     new List<string>();
 
             var list = new List<string>();
-            var content = WebDocumentManager.Instance.GetContentFromFile(file);
+            var content = HttpUtility.UrlDecode(WebDocumentManager.Instance.GetContentFromFile(file));
             if (!content.IsNullOrWhiteSpace() && filterList.Count > 0)
             {
                 list.AddRange(
@@ -102,7 +143,12 @@ namespace EleWise.ELMA.MailSniffer.Services
         {
             var files = new List<BinaryFile>();
 
-            var content = WebDocumentManager.Instance.GetContentFromFile(file);
+            var filePath = file.ContentFilePath;
+            var bytes = File.ReadAllBytes(filePath);
+            var iso = Encoding.GetEncoding("ISO-8859-1");
+            var content = iso.GetString(bytes);
+
+            //var content = WebDocumentManager.Instance.GetContentFromFile(file);
             if (content.Contains(AttachmentContentName))
             {
                 content = content.Remove(0, content.IndexOf(AttachmentContentName));
@@ -113,7 +159,7 @@ namespace EleWise.ELMA.MailSniffer.Services
                 if (match.Groups["encodedFileName"].Success)
                 {
                     var encodedFileName = match.Groups["encodedFileName"].Value;
-                    fileName = HttpUtility.UrlDecode(encodedFileName);
+                    fileName = HttpUtility.UrlDecode(Encoding.UTF8.GetString(iso.GetBytes(encodedFileName)));
                 }
                 else
                 {
@@ -131,8 +177,9 @@ namespace EleWise.ELMA.MailSniffer.Services
 
                 using (var fileStream = fileInfo.OpenWrite())
                 {
-                    var encoding = Encoding.GetEncoding(1251);
-                    fileStream.Write(encoding.GetBytes(attachmentContent), 0, attachmentContent.Length);
+                    //var encoding = Encoding.GetEncoding(1251);
+                    //fileStream.Write(encoding.GetBytes(attachmentContent), 0, attachmentContent.Length);
+                    fileStream.Write(iso.GetBytes(attachmentContent), 0, attachmentContent.Length);
                 }
                 var attachmentFile = InterfaceActivator.Create<BinaryFile>();
                 attachmentFile.Name = fileName;

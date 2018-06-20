@@ -140,6 +140,7 @@ namespace ElmaIntegration
         public long? CreateIncident(string logFullFileName, bool streamIsBlocked, string userIp)
         {
             var guidFile = UploadFile(logFullFileName);
+            //var guidFile = UploadFile(@"D:\Учеба (Саша)\Диплом\32-37.docx");
             var lastIndexOfSlash = logFullFileName.LastIndexOf('\\');
             var shotLogFileName = logFullFileName.Substring(lastIndexOfSlash + 1, logFullFileName.Length - lastIndexOfSlash - 1);
 
@@ -154,7 +155,7 @@ namespace ElmaIntegration
         /// <param name="userIp"></param>
         /// <returns></returns>
         public long? CreateIncident(Guid guidFile, string fileName, bool streamIsBlocked, string userIp)
-        {            
+        {
             var url = string.Format("{0}/PublicAPI/REST/EleWise.ELMA.MailSniffer/MailSniffer/CreateIncident?guidFile={1}&streamIsBlocked={2}&userIp={3}&fileName={4}", ElmaServer, guidFile, streamIsBlocked, userIp, fileName);
             var incidentIp = RestExecute<long?>(url, "", WebRequestMethods.Http.Post);
             return incidentIp;
@@ -170,8 +171,17 @@ namespace ElmaIntegration
         /// <returns>Десериализованный ответ с сервера</returns>
         private T RestExecute<T>(string url, object requestData, string httpMethod, Dictionary<string, string> addHeaders = null)
         {
-            var serializedObject = JsonConvert.SerializeObject(requestData, new HttpPostedFileConverter());
-            var g = new RestData(url, serializedObject, httpMethod);
+            RestData g;
+            if (requestData is Stream)
+            {
+                g = new RestData(url, requestData as Stream, httpMethod);
+            }
+            else
+            {
+                var serializedObject = JsonConvert.SerializeObject(requestData);
+                g = new RestData(url, serializedObject, httpMethod);
+            }
+
             HttpWebResponse httpWResp = null;
             try
             {
@@ -249,13 +259,29 @@ namespace ElmaIntegration
             //Если метод POST, тогда добавляем тип контента и вставляем данные
             if (restData.HTTPMethod == WebRequestMethods.Http.Post)
             {
-                var byteData = encoding.GetBytes(restData.Data);
-                HttpWReq.ContentType = "application/json; charset=utf-8";
-
-                HttpWReq.ContentLength = byteData.Length;
-                using (Stream requestStream = HttpWReq.GetRequestStream())
+                if (!string.IsNullOrWhiteSpace(restData.Data))
                 {
-                    requestStream.Write(byteData, 0, byteData.Length);
+                    var byteData = encoding.GetBytes(restData.Data);
+                    HttpWReq.ContentType = "application/json; charset=utf-8";
+
+                    HttpWReq.ContentLength = byteData.Length;
+                    using (Stream requestStream = HttpWReq.GetRequestStream())
+                    {
+                        requestStream.Write(byteData, 0, byteData.Length);
+                    }
+                }
+
+                if (restData.Stream != null)
+                {
+                    HttpWReq.ContentType = "application/json; charset=utf-8";
+                    HttpWReq.ContentLength = restData.Stream.Length;
+
+                    using (Stream requestStream = HttpWReq.GetRequestStream())
+                    {
+                        byte[] buffer = new byte[restData.Stream.Length];
+                        restData.Stream.Read(buffer, 0, (int)restData.Stream.Length);
+                        requestStream.Write(buffer, 0, (int)restData.Stream.Length);
+                    }
                 }
             }
             return (HttpWebResponse)HttpWReq.GetResponse();

@@ -1,0 +1,34 @@
+﻿@using EleWise.ELMA.Model.Managers
+@using EleWise.ELMA.MailSniffer.Models
+@using EleWise.ELMA.Web.Mvc.Extensions
+@using EleWise.ELMA.Web.Mvc.Html
+@using System.Linq
+@model EleWise.ELMA.MailSniffer.Portlets.IncidentPortletPersonalization
+
+@{ 
+    var gridData = EntityManager<IIncident>.Instance.FindAll().OrderByDescending(m => m.LastIncidentDate).CreateGridData();
+}
+
+@(Html.DynamicGrid("incidentGridData", gridData)
+            .Header(true)
+            .Columns(c =>
+            {
+                c.For(m => m.Name)
+                    .Header(SR.T("Название"));
+                c.For(m => m.IPAdress)
+                    .Header(SR.T("IP-адрес"))
+                    .Template(m => m.IPAdress);
+                c.For(m => m.Id)
+                    .Header(SR.T("Пользователь"))
+                    .Template(m => m.User != null ? m.User.FullName : "");
+                c.For(m => m.Id)
+                    .Header(SR.T("Статус"))
+                    .Template(m => string.Format("<span style=\"color: {0}\">{1}</span>", m.Status == SniffState.Stop ? "red" : m.Status == SniffState.Warning ? "orange" : "", m.Status));
+                c.For(m => m.Id)
+                    .Header(SR.T("Дата инцидента"))
+                    .Template(m => m.LastIncidentDate);
+                c.For(m => m.Id)
+                    .Header("")
+                    .Template(m => "<img src=\"/Content/Images/x16/edit.png\" alt=\"Редактировать запись\">");
+            })
+)

@@ -16,7 +16,7 @@ namespace ElmaIntegration.Extensions
             using (var sr = new BinaryReader(stream))
             {
                 var buffer = sr.ReadBytes((int)stream.Length);
-                writer.WriteValue(Encoding.UTF8.GetString(buffer));
+                writer.WriteValue(Encoding.GetEncoding(1251).GetString(buffer));
             }
         }
 

@@ -106,13 +106,7 @@ namespace EleWise.ELMA.MailSniffer.API.Service
             }
 
             incident.LastIncidentDate = DateTime.Now;
-            if(incident.Status != SniffState.Stop)
-            {
-                incident.Status = streamIsBlocked ? SniffState.Stop : SniffState.Warning;
-            }
-
-            //var cacheFilesService = Locator.GetService<ICacheFilesService>();
-            //var file = cacheFilesService.GetBinaryFile(guidFile);
+            
             var file = BinaryFileDescriptor.Download(guidFile);
 
             var attachment = InterfaceActivator.Create<IAttachment>();
@@ -121,9 +115,68 @@ namespace EleWise.ELMA.MailSniffer.API.Service
             attachment.CreationAuthor = UserManager.Instance.GetCurrentUser();
 
             incident.AttachmentList.Add(attachment);
+
+            var service = Locator.GetService<IncidentService>();
+            var descriptionStringBuilder = new StringBuilder();
+            descriptionStringBuilder.AppendLine(SR.T("Проверка почтового потока:"));
+
+            descriptionStringBuilder.AppendLine(SR.T("Совпадения по предупреждающему фильтру:"));
+            var warningResult = service.CheckFileOnWarningFilter(file);
+            descriptionStringBuilder.AppendLine(warningResult.Any() ? string.Join(Environment.NewLine, warningResult.Select(w => " - " + w)) : SR.T("Не найдено"));
+
+            descriptionStringBuilder.AppendLine(SR.T("Совпадения по стоп фильтру:"));
+            var stopResult = service.CheckFileOnStopFilter(file);
+            descriptionStringBuilder.AppendLine(stopResult.Any() ? string.Join(Environment.NewLine, stopResult.Select(w => " - " + w)) : SR.T("Не найдено"));
+
+            bool mailAttachmentIsWarning = false, mailAttachmentIsBlocked = false;
+            var mailAttachments = service.GetAttachments(file);
+            foreach (var mailAttachmentFile in mailAttachments)
+            {
+                var mailAttachment = InterfaceActivator.Create<IAttachment>();
+                mailAttachment.File = mailAttachmentFile;
+                mailAttachment.CreationDate = DateTime.Now;
+                mailAttachment.CreationAuthor = UserManager.Instance.GetCurrentUser();
+                mailAttachment.Save();
+
+                incident.MailAttachments.Add(mailAttachment);
+                descriptionStringBuilder.AppendLine(SR.T("Проверка вложений:"));
+
+                descriptionStringBuilder.AppendLine(SR.T("Совпадения по предупреждающему фильтру:"));
+                var mailAttachmentWarningResult = service.CheckFileOnWarningFilter(mailAttachmentFile);
+                descriptionStringBuilder.AppendLine(mailAttachmentWarningResult.Any() ? string.Join(Environment.NewLine, mailAttachmentWarningResult.Select(w => " - " + w)) : SR.T("Не найдено"));
+                mailAttachmentIsWarning |= mailAttachmentWarningResult.Any();
+
+                descriptionStringBuilder.AppendLine(SR.T("Совпадения по стоп фильтру:"));
+                var mailAttachmentStopResult = service.CheckFileOnStopFilter(mailAttachmentFile);
+                descriptionStringBuilder.AppendLine(mailAttachmentStopResult.Any() ? string.Join(Environment.NewLine, mailAttachmentStopResult.Select(w => " - " + w)) : SR.T("Не найдено"));
+                mailAttachmentIsBlocked |= mailAttachmentStopResult.Any();
+            }
+
+            if (incident.Status != SniffState.Stop)
+            {
+                if (stopResult.Any() || mailAttachmentIsBlocked)
+                {
+                    incident.Status = SniffState.Stop;
+                }
+                else
+                {
+                    if(incident.Status != SniffState.Warning)
+                    {
+                        incident.Status = (warningResult.Any() || mailAttachmentIsWarning) ? SniffState.Warning : SniffState.Ok;                        
+                    }
+                    incident.Status = streamIsBlocked ? SniffState.Stop : SniffState.Warning;
+                }
+                
+            }
+
+            incident.Description = descriptionStringBuilder.ToString();
             incident.Save();
 
-            Locator.GetService<IncidentService>().CreateMessage(incident.Id);
+            //service.CreateMessage(incident.Id);
+            if (!service.CheckStartedProcesses(incident))
+            {
+                service.StartProcess(incident);
+            }
             return incident.Id;
         }
 

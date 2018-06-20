@@ -120,7 +120,7 @@
             this.Controls.Add(this.login);
             this.Controls.Add(this.ElmaUrl);
             this.Name = "AuthForm";
-            this.Text = "AuthForm";
+            this.Text = "Авторизация";
             this.ResumeLayout(false);
             this.PerformLayout();
 
